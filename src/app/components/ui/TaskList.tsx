@@ -15,25 +15,13 @@ import { useTaskStore } from "@/app/store/useTaskDialogStore";
 import { useToastStore } from "@/app/store/useToastStore";
 import { getTRPCErrorMessage } from "@/app/utils/handleError";
 import { useRouter } from "next/navigation";
+import { deleteMutateHook } from "@/app/hooks/apiHooks";
 
 export const TaskListTemplate = ({ taskList }: { taskList: TaskList }) => {
-  const utils = trpc.useUtils();
-  const router = useRouter();
-
   const openTaskDialog = useTaskStore((state) => state.openTaskDialog);
   const showToast = useToastStore((state) => state.showToast);
 
-  const { mutate: deleteMutate, isPending } = trpc.delete.useMutation({
-    onSuccess: async () => {
-      await utils.getAll.invalidate();
-      router.refresh();
-      showToast("Task removed!", "success");
-    },
-    onError: (error) => {
-      const message = getTRPCErrorMessage(error);
-      showToast(message, "error");
-    },
-  });
+  const { mutate: deleteMutate, isPending } = deleteMutateHook({showToast})
 
   function handleDelete(id: Task["id"]) {
     deleteMutate({ id });
