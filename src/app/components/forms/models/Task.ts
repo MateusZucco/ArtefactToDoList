@@ -6,8 +6,8 @@ export const TaskModel = (data: Partial<Task> | null) => {
     id: null,
     title: "",
     description: "",
-    createDateTime: null,
-    updateDateTime: null
+    // createDateTime: null,
+    // updateDateTime: null
   };
   return _.defaults(data, defaultValues);
 };

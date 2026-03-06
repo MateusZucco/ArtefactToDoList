@@ -11,60 +11,45 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
-import { trpc } from "@/app/client/trpc";
-import { Task } from "@/utils/schemas/tasks.schema";
+import { Task, TaskSchema } from "@/utils/schemas/tasks.schema";
 import { TaskModel } from "./models/Task";
 import { useTaskStore } from "@/app/store/useTaskDialogStore";
 import { useToastStore } from "@/app/store/useToastStore";
-import { getTRPCErrorMessage } from "@/app/utils/handleError";
-import { useRouter } from "next/navigation";
-// Tipagem para os dados do formulário (apenas o que o usuário edita)
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createMutateHook, updateMutateHook } from "@/app/hooks/apiHooks";
 
 export const TaskFormTemplate = () => {
-  const utils = trpc.useUtils();
-  const router = useRouter();
-
   const dialogOpen = useTaskStore((state) => state.dialogOpen);
   const closeTaskDialog = useTaskStore((state) => state.closeTaskDialog);
   const selectedTask = useTaskStore((state) => state.selectedTask);
   const showToast = useToastStore((state) => state.showToast);
 
-  const { mutate: createMutate, isPending: isPendingCreate } =
-    trpc.create.useMutation({
-      onSuccess: async () => {
-        await utils.getAll.invalidate();
-        router.refresh();
-        showToast("Task created!", "success");
-        handleClose();
-      },
-      onError: (error) => {
-        const message = getTRPCErrorMessage(error);
-        showToast(message, "error");
-      },
-    });
+  const { mutate: createMutate, isPending: isPendingCreate } = createMutateHook(
+    {
+      showToast,
+      handleClose,
+    },
+  );
 
-  const { mutate: updateMutate, isPending: isPendingUpdate } =
-    trpc.update.useMutation({
-      onSuccess: async () => {
-        await utils.getAll.invalidate();
-        router.refresh();
-        showToast("Task updated!", "success");
-        handleClose();
-      },
-      onError: (error) => {
-        const message = getTRPCErrorMessage(error);
-        showToast(message, "error");
-      },
-    });
+  const { mutate: updateMutate, isPending: isPendingUpdate } = updateMutateHook(
+    {
+      showToast,
+      handleClose,
+    },
+  );
 
   const {
     control,
     reset,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, isValid },
     watch,
   } = useForm<Task>({
     defaultValues: TaskModel(null),
+    mode: "all",
+    resolver: zodResolver(TaskSchema),
   });
+
+  const form = watch();
 
   useEffect(() => {
     if (selectedTask) {
@@ -73,8 +58,6 @@ export const TaskFormTemplate = () => {
       reset(TaskModel(null));
     }
   }, [selectedTask]);
-
-  const form = watch();
 
   function handleSubmitForm(form: Task) {
     if (form.id) {
@@ -122,6 +105,8 @@ export const TaskFormTemplate = () => {
                 variant="outlined"
                 fullWidth
                 multiline
+                error={!!errors.description}
+                helperText={errors.description?.message}
                 rows={4}
               />
             )}
@@ -141,7 +126,7 @@ export const TaskFormTemplate = () => {
           <CircularProgress />
         ) : (
           <Button
-            disabled={!isDirty}
+            disabled={!isDirty || !isValid}
             type="submit"
             variant="contained"
             color="primary"

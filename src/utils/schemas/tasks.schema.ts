@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const TaskSchema = z.object({
-  id: z.string().nonoptional(),
+  id: z.string().optional().nullable(),
   title: z
     .string()
     .min(3, { message: "Task title must be at least 3 characters long" })
@@ -13,7 +13,7 @@ export const TaskSchema = z.object({
       message: "Task description must be at most 1000 characters long",
     })
     .optional(),
-  createDateTime: z.iso.datetime(),
+  createDateTime: z.iso.datetime().optional().nullable(),
   updateDateTime: z.iso.datetime().optional().nullable(),
 });
 
