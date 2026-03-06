@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ArtefactToDoList
 
-## Getting Started
+A simple To-Do List application built with Next.js, TypeScript, and Material-UI.
 
-First, run the development server:
+## Technologies
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This project utilizes the following technologies:
+
+- **Next.js:** A React framework for production.
+- **React:** A JavaScript library for building user interfaces.
+- **TypeScript:** A superset of JavaScript that adds static typing.
+- **Material-UI:** A popular UI framework for React.
+- **tRPC:** For building end-to-end type-safe APIs.
+- **Zustand:** A small, fast, and scalable state management solution for React.
+- **React Hook Form:** For form management.
+- **Zod:** For schema validation.
+- **Tailwind CSS:** A utility-first CSS framework for rapidly designing UIs.
+
+## Features
+
+- **CRUD Operations:** Create, read, update, and delete tasks.
+- **Task Listing:** View all tasks in a list.
+- **Task Form:** Add and edit tasks using a form.
+- **API Endpoints:** API endpoints for managing tasks.
+
+## Project Structure
+
+The project's file structure is as follows:
+
+```
+ArtefactToDoList/
+├── public/
+├── src/
+│   ├── app/
+│   │   ├── (routes)/
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── client/
+│   │   │   └── trpc.ts
+│   │   ├── components/
+│   │   │   ├── forms/
+│   │   │   │   ├── TaskForm.tsx
+│   │   │   │   └── models/
+│   │   │   │       └── Task.ts
+│   │   │   ├── ui/
+│   │   │   │   ├── TaskList.tsx
+│   │   │   │   ├── TaskListHeader.tsx
+│   │   │   │   └── components/
+│   │   │   │       └── ToastTemplate.tsx
+│   │   │   └── views/
+│   │   │       └── AppView.tsx
+│   │   ├── store/
+│   │   │   ├── useTaskDialogStore.ts
+│   │   │   └── useToastStore.ts
+│   │   ├── utils/
+│   │   │   ├── createMetadataTitle.ts
+│   │   │   └── handleError.ts
+│   │   ├── api/
+│   │   │   └── trpc/
+│   │   │       ├── TrpcProvider.tsx
+│   │   │       └── [trpc]/
+│   │   │           └── route.ts
+│   │   ├── favicon.ico
+│   │   └── globals.css
+│   ├── server/
+│   │   ├── caller.ts
+│   │   ├── database/
+│   │   │   └── database.ts
+│   │   ├── router.ts
+│   │   └── trpc.ts
+│   └── utils/
+│       └── schemas/
+│           └── tasks.schema.ts
+├── .gitignore
+├── README.md
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+└── tsconfig.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Execution
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To run the project locally, follow these steps:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1.  **Clone the repository:**
 
-## Learn More
+    ```bash
+    git clone https://github.com/MateusZucco/ArtefactToDoList.git
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Install dependencies:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    cd ArtefactToDoList
+    npm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.  **Start the development server:**
 
-## Deploy on Vercel
+    ```bash
+    npm run dev
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4.  **Open the application in your browser:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    [http://localhost:3000](http://localhost:3000)
