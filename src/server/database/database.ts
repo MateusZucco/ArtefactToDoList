@@ -1,13 +1,16 @@
 import { Task, TaskList } from "../../utils/schemas/tasks.schema";
 
 /**
- * Singleton Class to manage in-memory task storage.
+ *  Singleton Class to manage in-memory task storage
  */
 class TaskDatabase {
   private tasks: Map<string, Task> = new Map();
 
   private constructor() {}
 
+  /**
+   * Singleton method
+   */
   public static getInstance(): TaskDatabase {
     const globalKey = "_db_instance";
     const globalForDb = globalThis as unknown as {
@@ -26,7 +29,7 @@ class TaskDatabase {
   }
 
   /**
-   * CREATE: Automatically generates ID and creation timestamp.
+   * CREATE: Automatically generates Id and createDateTime
    */
   public create(data: {
     title: Task["title"];
@@ -45,21 +48,22 @@ class TaskDatabase {
   }
 
   /**
-   * READ: Lists all tasks as an array.
+   * READ: Lists all tasks
    */
   public getAll(): TaskList {
     return Array.from(this.tasks.values());
   }
 
   /**
-   * READ: Finds a specific task by its ID.
+   * READ: Finds a specific task by Id
    */
   public getById(id: Task["id"]): Task | undefined {
-    return this.tasks.get(id.toString());
+    if (id) return this.tasks.get(id.toString());
+    else return undefined;
   }
 
   /**
-   * UPDATE: Updates title, description, or other partial task data.
+   * UPDATE: Updates title, description and updateDateTime
    */
   public update({
     id,
@@ -67,28 +71,31 @@ class TaskDatabase {
   }: {
     id: Task["id"];
     form: Partial<Task>;
-  }): Task {
-    const existingTask = this.tasks.get(id.toString());
+  }): Task | undefined {
+    if (id) {
+      const existingTask = this.tasks.get(id.toString());
 
-    if (!existingTask) {
-      throw new Error(`Task with ID ${id} not found in the database.`);
-    }
+      if (!existingTask) {
+        throw new Error(`Task with ID ${id} not found in the database.`);
+      }
 
-    const updatedTask: Task = {
-      ...existingTask,
-      ...form,
-      updateDateTime: this.getNowIsoTime(),
-    };
+      const updatedTask: Task = {
+        ...existingTask,
+        ...form,
+        updateDateTime: this.getNowIsoTime(),
+      };
 
-    this.tasks.set(id.toString(), updatedTask);
-    return updatedTask;
+      this.tasks.set(id.toString(), updatedTask);
+      return updatedTask;
+    } else return undefined;
   }
 
   /**
-   * DELETE: Removes the task from the Map.
+   * DELETE: Removes the task from the Map
    */
   public delete(id: Task["id"]): boolean {
-    return this.tasks.delete(id.toString());
+    if (id) return this.tasks.delete(id.toString());
+    else return false;
   }
 }
 

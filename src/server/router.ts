@@ -8,9 +8,7 @@ import { revalidatePath } from "next/cache";
 const db = TarefaDatabase.getInstance();
 
 export const appRouter = router({
-  getAll: publicProcedure
-    .output(TaskSchema.array())
-    .query(() => db.getAll()),
+  getAll: publicProcedure.output(TaskSchema.array()).query(() => db.getAll()),
 
   getById: publicProcedure
     .input(TaskSchema.pick({ id: true }))
@@ -28,7 +26,7 @@ export const appRouter = router({
 
   update: publicProcedure
     .input(TaskSchema)
-    .output(TaskSchema)
+    .output(TaskSchema.or(z.undefined()))
     .mutation(async ({ input }) => {
       const result = await db.update({
         id: input.id,
@@ -47,7 +45,4 @@ export const appRouter = router({
       return result;
     }),
 });
-
-// Export type router type signature,
-// NOT the router itself.
 export type AppRouter = typeof appRouter;

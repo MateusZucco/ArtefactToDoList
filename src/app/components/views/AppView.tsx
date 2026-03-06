@@ -11,7 +11,7 @@ import { TaskListTemplate } from "../ui/TaskList";
 import { TaskListHeaderTemplate } from "../ui/TaskListHeader";
 import { TaskList } from "@/utils/schemas/tasks.schema";
 
-
+// mui theme pattern
 const theme = createTheme({
   palette: {
     background: { default: "#c1c2c3a1" },
@@ -19,6 +19,7 @@ const theme = createTheme({
   },
 });
 
+// Main App content
 export default function AppView({taskList}: {taskList: TaskList}) {
 
   return (

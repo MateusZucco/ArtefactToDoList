@@ -1,7 +1,9 @@
-// app/layout.tsx
 import "@/app/globals.css";
-import TrpcProvider from "../api/trpc/TrpcProvider"; // Ajuste o caminho conforme necessário
+import TrpcProvider from "../api/trpc/TrpcProvider";
+
+// tost to notifications
 import { ToastTemplate } from "../components/ui/components/ToastTemplate";
+
 export default async function RootLayout({
   children,
 }: Readonly<{

@@ -51,6 +51,7 @@ export const TaskFormTemplate = () => {
 
   const form = watch();
 
+  // hook to update form when change selected task
   useEffect(() => {
     if (selectedTask) {
       reset(TaskModel(selectedTask));

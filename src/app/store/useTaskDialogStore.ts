@@ -6,7 +6,6 @@ interface TaskState {
   selectedTask: Task | null;
   setDialogOpen: (open: boolean) => void;
   setSelectedTask: (task: Task | null) => void;
-  // Atalho para abrir o modal já com uma task
   openTaskDialog: (task: Task | null) => void;
   closeTaskDialog: () => void;
 }

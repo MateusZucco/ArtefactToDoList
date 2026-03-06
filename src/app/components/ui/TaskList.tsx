@@ -9,12 +9,9 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Task, TaskList } from "@/utils/schemas/tasks.schema";
-import { trpc } from "@/app/client/trpc";
 import { TaskFormTemplate } from "../forms/TaskForm";
 import { useTaskStore } from "@/app/store/useTaskDialogStore";
 import { useToastStore } from "@/app/store/useToastStore";
-import { getTRPCErrorMessage } from "@/app/utils/handleError";
-import { useRouter } from "next/navigation";
 import { deleteMutateHook } from "@/app/hooks/apiHooks";
 
 export const TaskListTemplate = ({ taskList }: { taskList: TaskList }) => {

@@ -1,20 +1,18 @@
 // utils/handle-error.ts
-import { TRPCClientError } from '@trpc/client';
+import { TRPCClientError } from "@trpc/client";
 
 export const getTRPCErrorMessage = (error: any): string => {
-  // Se for um erro do tRPC
+  // is is a tRPC error
   if (error instanceof TRPCClientError) {
     try {
-      // Tenta parsear caso a mensagem venha como string JSON (comum no tRPC/Zod)
       const parsed = JSON.parse(error.message);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed[0].message; // Retorna apenas o primeiro erro de validação
+        return parsed[0].message;
       }
     } catch {
-      // Se não for JSON, retorna a mensagem pura
       return error.message;
     }
   }
-  
-  return "Ocorreu um erro inesperado. Tente novamente.";
+  // fallback message
+  return "An unexpected error occurred. Please try again.";
 };

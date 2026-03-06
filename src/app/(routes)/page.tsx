@@ -11,6 +11,8 @@ export const metadata = createMetadataTitle({
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
+
+  // get all tasks using SSR method
   const caller = createSSRCaller();
   const taskList = await caller.getAll();
 

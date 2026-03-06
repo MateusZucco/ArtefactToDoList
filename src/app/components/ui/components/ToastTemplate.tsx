@@ -5,8 +5,7 @@ import { useToastStore } from '@/app/store/useToastStore';
 export const ToastTemplate = () => {
   const { open, message, severity, hideToast } = useToastStore();
 
-  const handleClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') return;
+  const handleClose = () => {
     hideToast();
   };
 
